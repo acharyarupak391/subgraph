@@ -1,0 +1,26 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Message
+    network: kovan
+    source:
+      address: "0x8E27Eb3f3b9E95010134fb986E6cff6E071B5f02"
+      abi: Message
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - messageDeleted
+        - messageSet
+      abis:
+        - name: Message
+          file: ./abis/Message.json
+      eventHandlers:
+        - event: messageDeleted(address)
+          handler: handlemessageDeleted
+        - event: messageSet(address,string,uint256)
+          handler: handlemessageSet
+      file: ./src/mapping.ts
