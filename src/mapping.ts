@@ -1,34 +1,23 @@
-import { BigInt } from "@graphprotocol/graph-ts"
-import {
-  Message,
-  messageDeleted,
-  messageSet
-} from "../generated/Message/Message"
-import { ExampleEntity } from "../generated/schema"
+import { messageDeleted, messageSet } from "../generated/Message/Message";
+import { CreatedEntity, DeletedEntity } from "../generated/schema";
 
 export function handlemessageDeleted(event: messageDeleted): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let entity = DeletedEntity.load(event.transaction.hash.toHexString());
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+    entity = new DeletedEntity(event.transaction.hash.toHexString());
   }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
   // Entity fields can be set based on event parameters
-  entity._sender = event.params._sender
-  entity._timestamp = event.params._timestamp
+  entity._sender = event.params._sender;
+  entity._timestamp = event.params._timestamp;
 
   // Entities can be written to the store with `.save()`
-  entity.save()
+  entity.save();
 
   // Note: If a handler doesn't require existing field values, it is faster
   // _not_ to load the entity from the store. Instead, create it fresh with
@@ -48,4 +37,21 @@ export function handlemessageDeleted(event: messageDeleted): void {
   // - contract.readMessage(...)
 }
 
-export function handlemessageSet(event: messageSet): void {}
+export function handlemessageSet(event: messageSet): void {
+  // Entities can be loaded from the store using a string ID; this ID
+  // needs to be unique across all entities of the same type
+  let entity = CreatedEntity.load(event.transaction.hash.toHexString());
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (!entity) {
+    entity = new CreatedEntity(event.transaction.hash.toHexString());
+  }
+
+  entity._sender = event.params._sender;
+  entity._message = event.params._message;
+  entity._timestamp = event.params._timestamp;
+
+  // Entities can be written to the store with `.save()`
+  entity.save();
+}
