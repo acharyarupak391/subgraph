@@ -19,7 +19,11 @@ dataSources:
         - name: Message
           file: ./abis/Message.json
       eventHandlers:
+<<<<<<< HEAD
         - event: messageDeleted(address,uint256)
+=======
+        - event: messageDeleted(address)
+>>>>>>> b9fa7e4fe43f08b40479b616778817c68696e30b
           handler: handlemessageDeleted
         - event: messageSet(address,string,uint256)
           handler: handlemessageSet
