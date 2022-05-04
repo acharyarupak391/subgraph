@@ -9,12 +9,12 @@ import { CreatedEntity, DeletedEntity } from "../generated/schema";
 export function handlemessageDeleted(event: messageDeleted): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = DeletedEntity.load(event.transaction.from.toHex());
+  let entity = DeletedEntity.load(event.transaction.hash.toString());
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new DeletedEntity(event.transaction.from.toHex());
+    entity = new DeletedEntity(event.transaction.hash.toString());
   }
 
   // Entity fields can be set based on event parameters
@@ -44,12 +44,12 @@ export function handlemessageDeleted(event: messageDeleted): void {
 export function handlemessageSet(event: messageSet): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = CreatedEntity.load(event.transaction.from.toHex());
+  let entity = CreatedEntity.load(event.transaction.hash.toString());
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new CreatedEntity(event.transaction.from.toHex());
+    entity = new CreatedEntity(event.transaction.hash.toString());
   }
 
   entity._sender = event.params._sender;
