@@ -1,4 +1,11 @@
-type ExampleEntity @entity {
+type DeletedEntity @entity {
   id: ID!
   _sender: Bytes! # address
+}
+
+type CreatedEntity @entity {
+  id: ID!
+  _sender: Bytes! # address
+  _message: String!
+  _timestamp: BigInt!
 }

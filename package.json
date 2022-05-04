@@ -5,7 +5,7 @@
     "codegen": "graph codegen",
     "build": "graph build",
     "graph-auth": "TOKEN=$(grep ACCESS_TOKEN .env | cut -d '=' -f2) && graph auth --product hosted-service $TOKEN",
-    "deploy": "yarn graph-auth && graph deploy --node https://api.thegraph.com/deploy/ rupak-nm/my-subgraph",
+    "deploy": "yarn codegen && yarn graph-auth && graph deploy --node https://api.thegraph.com/deploy/ rupak-nm/my-subgraph",
     "create-local": "graph create --node http://localhost:8020/ rupak-nm/my-subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ rupak-nm/my-subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 rupak-nm/my-subgraph"
